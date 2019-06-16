@@ -1,0 +1,86 @@
+<html>
+    <head> 
+    <title>SECRET</title> 
+   <style>
+     body {
+       background-image: url(http://www.museudememes.com.br/wp-content/uploads/2018/03/tenor-1.gif);
+     }
+     .bloco {
+      width: 50px;
+      height: 50px;
+      margin: 0;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 27pt;
+      user-select: none; 
+     }
+     .ativo {
+       background-color: #009999
+    
+     }
+    
+    .inativo {
+      background-color: goldenrod
+    }
+    .painel {
+      display: inline-flex
+    }
+    .controles {
+      border-style: solid;
+      width: 400px;
+      padding: 5px;
+      background-color:white;
+      background-position: center center;
+
+    }
+    .controles button {
+      border-radius: 10%;
+        background-color: #923339;
+        border: none;
+        font-size: 25pt;
+    }
+    .tentativas { font-size: 27pt;
+    }
+    .mensagem {
+      font-size: 27pt;
+      color: rgb(34, 165, 165);
+    }
+    .tabuleiro {
+      border-style: solid;
+      background-color: white;
+      background-position: center center;
+    }
+
+     </style>
+
+  </head>
+    <BODY>
+    <div class="painel">
+     <div class="tabuleiro">
+      <div class="linha">
+       <div id="b1" class="bloco">1</div>
+        <div id="b2" class="bloco">2</div>
+         <div id="b3" class="bloco">3</div>
+    </div>
+    <div class="linha">
+     <div id="b4" class="bloco">4</div>
+      <div id="b5" class="bloco">5</div>
+       <div id="b6" class="bloco">6</div>
+</div>
+     <div class="linha">
+      <div id="b7" class="bloco">7</div>
+       <div id="b8" class="bloco">8</div>
+       <div id="b9" class="bloco">9</div>
+     </div>
+    </div>
+    <div class="controles">
+       <div id="numtentativas"  class="tentativas">
+         0 tentativas
+         </div>
+         <button type="button">Começar</button>
+         <div class="mensagem" id="mensagem"></div>
+     </div>
+    </div>
+  </BODY>
+</html>
