@@ -1,0 +1,239 @@
+<html>
+    <head> 
+    <title>SECRET</title> 
+   <style>
+     body {
+       background-image: url(http://www.museudememes.com.br/wp-content/uploads/2018/03/tenor-1.gif);
+     }
+     .bloco {
+      width: 50px;
+      height: 50px;
+      margin: 0;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 27pt;
+      user-select: none; 
+     }
+     .ativo {
+       background-color: #009999
+    
+     }
+    
+    .inativo {
+      background-color: goldenrod
+    }
+    .painel {
+      display: inline-flex
+    }
+    .controles {
+      border-style: solid;
+      width: 400px;
+      padding: 5px;
+      background-color:white;
+      background-position: center center;
+
+    }
+    .controles button {
+      border-radius: 10%;
+        background-color: #923339;
+        border: none;
+        font-size: 25pt;
+    }
+    .tentativas { font-size: 27pt;
+    }
+    .mensagem {
+      font-size: 27pt;
+      color: rgb(34, 165, 165);
+    }
+    .tabuleiro {
+      border-style: solid;
+      background-color: white;
+      background-position: center center;
+    }
+
+     </style>
+     <script>
+      //variável que armazena a quantidade de tentivas de resolver o quebra-cabeça
+      var numTentativas = 0;
+      //variável que armazena o valor lógico que indica se o jogo foi ou não foi iniciado.
+      var iniciado = false;
+      //função que inicia o jogo.
+      function Começar() {
+	      //percorre todos os 9 numeros do tabuleiro.
+        for(var i = 1; i <= 9; i++) {
+          //obtem o elemento html referente ao i-éssimo bloco e armazena-o na variável bloco.
+          //note lá no código html que cada bloquinho numerado do tabuleiro
+	        //possui o atributo id="bloco1", id="bloco2", ...
+          var bloco = document.getElementById("bloco"+i);
+	        //remove as classes css "ativo" e "inativo" do bloco do tabuleiro.
+          bloco.classList.remove("ativo");
+          bloco.classList.remove("inativo");
+	        //usa as funçoes random() e round() do objeto Math para gerar um numero aleatório e inteiro entre 0 e 1.
+	        //O if entende 0 como false e qualquer outro valor numérico como true.
+          if(Math.round(Math.random())) {
+            //ativa o bloquinho numérico.
+            bloco.classList.add("ativo")
+          } else {
+	          //desativa o bloquinho numérico.
+            bloco.classList.add("inativo")
+          }
+        }
+	      //se a situação inicial do jogo que foi gerada de forma aleatória for uma situação onde todos os bloquinhos numéricos estejam ativos, então a função iniciar() será chamada novamente.
+        if(verificaVitoria()) {
+	        //chama novamente a função começar ()
+          Começar();
+        }
+	      //incializa a quantidade de tentativas para -1
+        numTentativas = -1;
+	      //incrementa a quantidade de tentativas em 1 o que faz com que este valor vá para 0
+	      //e exibe a quantidade de tentativas na tela.
+        incrementarTentativas();
+	      //indica que o jogo foi iniciado.
+        iniciado = true;
+	      //se existir, apaga qualquer mensagem.
+        exibirMensagem("")
+      }
+      //teste de o jogador venceu.
+      function verificaVitoria() {
+	      //percorre todos os 9 bloquinhos numéricos em busca de pelo menos 1 bloquinho inativo.
+        for(var i = 1; i <= 9; i++) {
+	        //obtém o elemento html referente ao bloquinho numérico atual.
+          var bloco = document.getElementById("bloco"+i);
+          //verifica se o bloco está inativo e retorna o valor lógico para a variável perdeu. A funcão contains() verifica se uma classe css
+          //está na lista de classes css do bloquinho numérico atual.
+          var perdeu = bloco.classList.contains("inativo");
+	        //se o bloquinho estiver inativo
+          if(perdeu) {
+            //finaliza a função retornando o valor lógico false.
+            return false;
+          }
+        }
+	      //finaliza a função retornando o valor lógico true.
+        return true;
+      }
+      //função que alterna o estado de um bloquinho numérico
+      function mudarBloco(numBloco) {
+        //obtém o bloquinho número correspondente ao número do bloco da variável numBloco.
+        var bloco = document.getElementById("bloco"+numBloco);
+        //Se o classe ativo está na lista de classes do bloco númerico, isto é, o bloco está ligado.
+        if(bloco.classList.contains("ativo")) {
+          //Remove a classe ativo da lista de classes do bloco.
+          bloco.classList.remove("ativo")
+          //Adiciona a classe inativo a lista de classes do bloco.
+          bloco.classList.add("inativo")
+        } else if(bloco.classList.contains("inativo")) { //Se o bloco esta inativo
+          //remove a classe inativo da lista de classes do bloco
+          bloco.classList.remove("inativo")
+          //Adiciona a classe ativo a lista de classes do bloco.
+          bloco.classList.add("ativo")
+        }
+      }
+      //Incrementa em 1 a quantidade de tentativas de resolução do quebra-cabeça e exibe o resultado na tela.
+      function incrementarTentativas() {
+        //Incrementa em 1
+        numTentativas++;
+        //Obtem o elemento html(div) onde é apresentado o número de tentativas.
+        //Verifique no código html que existe uma div com o ID="numTentativas"
+        var tentativas = document.getElementById("numTentativas");
+        //Exibe a nova quantidade de tentativas na tela.
+        tentativas.innerHTML = numTentativas + " tentativas";
+      }
+      //Exibe uma mensagem para o jogador.
+      function exibirMensagem(mensagem) {
+        //Obtém o elemento html(div) onde é apresentada as mensagens para o jogador.
+        var msgDiv = document.getElementById("mensagem");
+        //Exibe a mensagem na tela.
+        msgDiv.innerHTML = mensagem;
+      }
+      //Função que é chamada sempre que o usuário clicar em um bloquinho númerico
+      //O número do bloco é passado como parâmeter.
+      function jogar(numBloco) {
+        //Se o jogo ainda não foi iniciado. A função termina aqui retornando nada.
+        if(!iniciado) return;
+        //se o jogardor clicou no bloco 1
+        if(numBloco == 1) {
+          mudarBloco(1)
+          mudarBloco(2)
+          mudarBloco(4)
+        } else if( numBloco == 2) { //se o jogador clicou no bloco 2
+          mudarBloco(1)
+          mudarBloco(2)
+          mudarBloco(3)
+          mudarBloco(5)
+        } else if( numBloco == 3) { //se o jogador clicou no bloco 3
+          mudarBloco(2)
+          mudarBloco(3)
+          mudarBloco(6)
+        } else if( numBloco == 4) { //se o jogador clicou no bloco 4
+          mudarBloco(1)
+          mudarBloco(4)
+          mudarBloco(5)
+          mudarBloco(7)
+        } else if( numBloco == 5) { //se o jogador clicou no bloco 5
+          mudarBloco(2)
+          mudarBloco(4)
+          mudarBloco(5)
+          mudarBloco(6)
+          mudarBloco(8)
+        } else if( numBloco == 6) { //se o jogador clicou no bloco 6
+          mudarBloco(3)
+          mudarBloco(5)
+          mudarBloco(6)
+          mudarBloco(9)
+        } else if( numBloco == 7) { //se o jogador clicou no bloco 7
+          mudarBloco(4)
+          mudarBloco(7)
+          mudarBloco(8)
+        } else if( numBloco == 8) { //se o jogador clicou no bloco 8
+          mudarBloco(5)
+          mudarBloco(7)
+          mudarBloco(8)
+          mudarBloco(9)
+        }  else if( numBloco == 9) { //se o jogador clicou no bloco 9
+          mudarBloco(6)
+          mudarBloco(8)
+          mudarBloco(9)
+        }
+        //Incrementa a quantidade de tentativas.
+        incrementarTentativas();
+        //Verifica se o jogador consegui resolver o quebra-cabeça.
+        if(verificaVitoria()) {
+          //Exibe e mensagem de vitória.
+          exibirMensagem("Você venceu!!!")
+          //Desliga o jogo
+          iniciado = false;
+        }
+      }
+    </script>
+
+  </head>
+    <BODY>
+    <div class="painel">
+     <div class="tabuleiro">
+      <div class="linha">
+       <div id="b1" class="bloco" onclick="jogar(1)">1</div>
+        <div id="b2" class="bloco" onclick="jogar(2)">2</div>
+         <div id="b3" class="bloco" onclick="jogar(3)">3</div>
+    </div>
+    <div class="linha">
+     <div id="b4" class="bloco" onclick="jogar(4)">4</div>
+      <div id="b5" class="bloco" onclick="jogar(5)">5</div>
+       <div id="b6" class="bloco" onclick="jogar(6)">6</div>
+</div>
+     <div class="linha">
+      <div id="b7" class="bloco" onclick="jogar(7)">7</div>
+       <div id="b8" class="bloco" onclick="jogar(8)">8</div>
+       <div id="b9" class="bloco" onclick="jogar(9)">9</div>
+     </div>
+    </div>
+    <div class="controles">
+       <div id="numtentativas"  class="tentativas">
+         0 tentativas
+         </div>
+         <button type="button" onclick="Começar()">começar</button>
+         <div class="mensagem" id="mensagem"></div>
+     </div>
+    </div>
+  </BODY>
+</html>
